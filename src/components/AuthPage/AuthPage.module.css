@@ -1,0 +1,17 @@
+.pageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainContainer {
+  width: 720px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.chooseActionContainer {
+  display: flex;
+  justify-content: space-around;
+}
