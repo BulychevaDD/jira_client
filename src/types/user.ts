@@ -5,6 +5,6 @@ export interface UserInfo {
 }
 
 export interface Tokens {
-  accessToken: string;
-  refreshToken: string;
+  access: string;
+  refresh: string;
 }

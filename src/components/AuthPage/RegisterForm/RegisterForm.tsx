@@ -3,8 +3,6 @@ import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import styles from "./RegisterForm.module.css";
 import { API } from "../../../services/apiService";
-import { useRouter } from "next/router";
-import { ACCESS_TOKEN_KEY } from "../../../constants/storageKeys";
 
 interface RegistrationData {
   username: string;
@@ -39,19 +37,19 @@ const registerInitialValues: RegistrationData = {
   password: "",
 };
 
-const RegisterForm: React.FC = () => {
-  const router = useRouter();
+interface RegisterFormProps {
+  onComplete?: () => void;
+}
 
-  const handleSubmit = (values: RegistrationData) => {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
-    API.post("/api/users/register", {
+const RegisterForm: React.FC<RegisterFormProps> = ({ onComplete }) => {
+  const handleSubmit = async (values: RegistrationData) => {
+    await API().post("/api/users/register", {
       username: values.username,
       first_name: values.firstName,
       last_name: values.lastName,
       password: values.password,
-    }).then(() => {
-      return router.push("/");
     });
+    onComplete?.();
   };
 
   return (
@@ -60,7 +58,7 @@ const RegisterForm: React.FC = () => {
       onSubmit={handleSubmit}
       validationSchema={registerSchema}
     >
-      {(formik) => (
+      {() => (
         <Form className={styles.form}>
           <div>
             <label htmlFor="username">Логин</label>

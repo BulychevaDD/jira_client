@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "env-cmd -f environment/.env.local next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,9 +14,11 @@
     "@types/react-dom": "18.0.9",
     "axios": "^1.2.1",
     "classnames": "^2.3.2",
+    "env-cmd": "^10.1.0",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "formik": "^2.2.9",
+    "js-cookie": "^3.0.1",
     "next": "13.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -27,6 +29,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
     "prettier": "^2.8.1"
   }
 }

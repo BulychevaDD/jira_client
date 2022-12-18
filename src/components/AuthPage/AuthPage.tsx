@@ -1,12 +1,25 @@
 import styles from "./AuthPage.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../common/Button/Button";
 import LoginForm from "./LoginForm/LoginForm";
 import RegisterForm from "./RegisterForm/RegisterForm";
+import { useRouter } from "next/router";
+import { BASE_ROUTE } from "../../constants/routes";
+import useUser from "../../hooks/useUser";
 
 type FormType = "register" | "login";
 
 const AuthPage: React.FC = () => {
+  const router = useRouter();
+
+  const { data: userData } = useUser();
+
+  useEffect(() => {
+    if (userData) {
+      router.replace(BASE_ROUTE).then();
+    }
+  }, [userData, router]);
+
   const [currentForm, setCurrentForm] = useState<FormType>("login");
 
   const handleLoginClick = () => {
@@ -17,6 +30,10 @@ const AuthPage: React.FC = () => {
     setCurrentForm("register");
   };
 
+  const handleRegisterComplete = () => {
+    setCurrentForm("login");
+  };
+
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.mainContainer}>
@@ -24,7 +41,11 @@ const AuthPage: React.FC = () => {
           <Button onClick={handleLoginClick}>Вход</Button>
           <Button onClick={handleRegisterClick}>Регистрация</Button>
         </div>
-        {currentForm === "login" ? <LoginForm /> : <RegisterForm />}
+        {currentForm === "login" ? (
+          <LoginForm />
+        ) : (
+          <RegisterForm onComplete={handleRegisterComplete} />
+        )}
       </div>
     </div>
   );
