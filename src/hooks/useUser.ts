@@ -14,10 +14,17 @@ const useUser = (): UseQueryResult<UserInfo> => {
     () =>
       API()
         .get("/api/users/info")
-        .then((response: AxiosResponse<UserInfo>) => response.data),
+        .then((response) => ({
+          firstName: response.data.first_name,
+          lastName: response.data.last_name,
+          username: response.data.username,
+        }))
+        .catch((error) => {
+          result.remove();
+          return error;
+        }),
     {
-      enabled:
-        isClientSide() && Boolean(Cookies.get(ACCESS_TOKEN_KEY)),
+      enabled: isClientSide() && Boolean(Cookies.get(ACCESS_TOKEN_KEY)),
     }
   );
 
@@ -31,10 +38,10 @@ const useUser = (): UseQueryResult<UserInfo> => {
     if (refreshToken) {
       API()
         .post("/api/users/token/refresh", { refresh: refreshToken })
-        .then(async (response: AxiosResponse<Tokens>) => {
+        .then((response: AxiosResponse<Tokens>) => {
           Cookies.set(ACCESS_TOKEN_KEY, response.data.access);
           Cookies.set(REFRESH_TOKEN_KEY, response.data.refresh);
-          await result.refetch();
+          result.refetch().then();
         })
         .catch(() => {
           Cookies.remove(ACCESS_TOKEN_KEY);

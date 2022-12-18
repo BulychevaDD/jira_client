@@ -10,6 +10,8 @@ import {
 import { Tokens } from "../../../types/user";
 import { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { BASE_ROUTE } from "../../../constants/routes";
 
 interface LoginData {
   username: string;
@@ -30,6 +32,8 @@ const loginInitialValues: LoginData = {
 };
 
 const LoginForm: React.FC = () => {
+  const router = useRouter();
+
   const handleSubmit = async (values: LoginData) => {
     await API()
       .post("/api/users/token", {
@@ -37,10 +41,10 @@ const LoginForm: React.FC = () => {
         password: values.password,
       })
       .then((response: AxiosResponse<Tokens>) => {
-        console.log(response.data);
         Cookies.set(ACCESS_TOKEN_KEY, response.data.access);
         Cookies.set(REFRESH_TOKEN_KEY, response.data.refresh);
       });
+    router.replace(BASE_ROUTE).then();
   };
 
   return (

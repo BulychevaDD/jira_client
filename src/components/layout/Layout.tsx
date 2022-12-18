@@ -1,7 +1,9 @@
-import React, {useEffect} from "react";
-import {useRouter} from "next/router";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import useUser from "../../hooks/useUser";
-import {AUTH_ROUTE} from "../../constants/routes";
+import { AUTH_ROUTE } from "../../constants/routes";
+import Header from "./Header/Header";
+import styles from "./Layout.module.css";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,7 +20,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
   }, [router, userData]);
 
-  return <>{children}</>;
+  return (
+    <div className={styles.container}>
+      <Header />
+      <div className={styles.content}>{children}</div>
+    </div>
+  );
 };
 
 export default Layout;
