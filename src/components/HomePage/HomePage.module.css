@@ -1,0 +1,50 @@
+.error {
+  color: darkred;
+}
+
+.container {
+  margin: 10px 20px;
+}
+
+.container > div {
+  margin-bottom: 15px;
+}
+
+.projectCreateContainer {
+  margin: 3px;
+  padding: 10px 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.localTitle {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: darkblue;
+}
+
+.form {
+  width: 500px;
+}
+
+.form > * {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > div > * {
+  margin-bottom: 5px;
+}
+
+.buttonContainer {
+  margin: 7px;
+}
+
+.status {
+  color: darkgreen;
+}
+
+.accent {
+  color: darkgoldenrod;
+}

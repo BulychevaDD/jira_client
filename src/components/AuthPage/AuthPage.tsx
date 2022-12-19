@@ -1,6 +1,5 @@
 import styles from "./AuthPage.module.css";
 import React, { useEffect, useState } from "react";
-import Button from "../common/Button/Button";
 import LoginForm from "./LoginForm/LoginForm";
 import RegisterForm from "./RegisterForm/RegisterForm";
 import { useRouter } from "next/router";
@@ -38,8 +37,8 @@ const AuthPage: React.FC = () => {
     <div className={styles.pageWrapper}>
       <div className={styles.mainContainer}>
         <div className={styles.chooseActionContainer}>
-          <Button onClick={handleLoginClick}>Вход</Button>
-          <Button onClick={handleRegisterClick}>Регистрация</Button>
+          <button onClick={handleLoginClick}>Вход</button>
+          <button onClick={handleRegisterClick}>Регистрация</button>
         </div>
         {currentForm === "login" ? (
           <LoginForm />

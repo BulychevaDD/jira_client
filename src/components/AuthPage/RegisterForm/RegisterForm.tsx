@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import styles from "./RegisterForm.module.css";
@@ -42,14 +42,22 @@ interface RegisterFormProps {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onComplete }) => {
+  const [commonError, setCommonError] = useState<string | null>(null);
+
   const handleSubmit = async (values: RegistrationData) => {
-    await API().post("/api/users/register", {
-      username: values.username,
-      first_name: values.firstName,
-      last_name: values.lastName,
-      password: values.password,
-    });
-    onComplete?.();
+    await API()
+      .post("/api/users/register", {
+        username: values.username,
+        first_name: values.firstName,
+        last_name: values.lastName,
+        password: values.password,
+      })
+      .then(() => {
+        onComplete?.();
+      })
+      .catch(() => {
+        setCommonError("Невозможно завершить регистрацию");
+      });
   };
 
   return (
@@ -58,31 +66,30 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onComplete }) => {
       onSubmit={handleSubmit}
       validationSchema={registerSchema}
     >
-      {() => (
-        <Form className={styles.form}>
-          <div>
-            <label htmlFor="username">Логин</label>
-            <Field type="text" name="username" id="username" />
-            <ErrorMessage name="username" />
-          </div>
-          <div>
-            <label htmlFor="firstName">Имя</label>
-            <Field type="text" name="firstName" id="firstName" />
-            <ErrorMessage name="firstName" />
-          </div>
-          <div>
-            <label htmlFor="lastName">Фамилия</label>
-            <Field type="text" name="lastName" id="lastName" />
-            <ErrorMessage name="lastName" />
-          </div>
-          <div>
-            <label htmlFor="password">Пароль</label>
-            <Field type="password" name="password" id="password" />
-            <ErrorMessage name="password" />
-          </div>
-          <button type="submit">Регистрация</button>
-        </Form>
-      )}
+      <Form className={styles.form}>
+        <div>
+          <label htmlFor="username">Логин</label>
+          <Field type="text" name="username" id="username" />
+          <ErrorMessage name="username" />
+        </div>
+        <div>
+          <label htmlFor="firstName">Имя</label>
+          <Field type="text" name="firstName" id="firstName" />
+          <ErrorMessage name="firstName" />
+        </div>
+        <div>
+          <label htmlFor="lastName">Фамилия</label>
+          <Field type="text" name="lastName" id="lastName" />
+          <ErrorMessage name="lastName" />
+        </div>
+        <div>
+          <label htmlFor="password">Пароль</label>
+          <Field type="password" name="password" id="password" />
+          <ErrorMessage name="password" />
+        </div>
+        <button type="submit">Регистрация</button>
+        <div className={styles.error}>{commonError}</div>
+      </Form>
     </Formik>
   );
 };

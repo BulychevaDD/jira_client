@@ -3,4 +3,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px 10px;
+  background: darkblue;
+  color: white;
+}
+
+.title {
+  font-weight: bold;
 }

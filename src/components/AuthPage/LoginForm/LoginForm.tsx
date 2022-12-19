@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { API } from "../../../services/apiService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import styles from "../RegisterForm/RegisterForm.module.css";
+import styles from "./LoginForm.module.css";
 import {
   ACCESS_TOKEN_KEY,
   REFRESH_TOKEN_KEY,
@@ -34,6 +34,8 @@ const loginInitialValues: LoginData = {
 const LoginForm: React.FC = () => {
   const router = useRouter();
 
+  const [commonError, setCommonError] = useState<string | null>(null);
+
   const handleSubmit = async (values: LoginData) => {
     await API()
       .post("/api/users/token", {
@@ -43,8 +45,11 @@ const LoginForm: React.FC = () => {
       .then((response: AxiosResponse<Tokens>) => {
         Cookies.set(ACCESS_TOKEN_KEY, response.data.access);
         Cookies.set(REFRESH_TOKEN_KEY, response.data.refresh);
+        router.replace(BASE_ROUTE).then();
+      })
+      .catch(() => {
+        setCommonError("Невозможно выполнить вход");
       });
-    router.replace(BASE_ROUTE).then();
   };
 
   return (
@@ -53,21 +58,20 @@ const LoginForm: React.FC = () => {
       onSubmit={handleSubmit}
       validationSchema={loginSchema}
     >
-      {() => (
-        <Form className={styles.form}>
-          <div>
-            <label htmlFor="username">Логин</label>
-            <Field type="text" name="username" id="username" />
-            <ErrorMessage name="username" />
-          </div>
-          <div>
-            <label htmlFor="password">Пароль</label>
-            <Field type="password" name="password" id="password" />
-            <ErrorMessage name="password" />
-          </div>
-          <button type="submit">Вход</button>
-        </Form>
-      )}
+      <Form className={styles.form}>
+        <div>
+          <label htmlFor="username">Логин</label>
+          <Field type="text" name="username" id="username" />
+          <ErrorMessage name="username" />
+        </div>
+        <div>
+          <label htmlFor="password">Пароль</label>
+          <Field type="password" name="password" id="password" />
+          <ErrorMessage name="password" />
+        </div>
+        <button type="submit">Вход</button>
+        <div className={styles.error}>{commonError}</div>
+      </Form>
     </Formik>
   );
 };

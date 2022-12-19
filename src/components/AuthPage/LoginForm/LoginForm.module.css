@@ -1,0 +1,13 @@
+.form > div {
+  margin: 10px 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form > div > * {
+  margin-bottom: 3px;
+}
+
+.error {
+  color: darkred;
+}

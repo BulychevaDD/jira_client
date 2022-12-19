@@ -1,6 +1,5 @@
 import styles from "./Header.module.css";
 import React from "react";
-import Button from "../../common/Button/Button";
 import Cookies from "js-cookie";
 import useUser from "../../../hooks/useUser";
 import {
@@ -24,12 +23,12 @@ const Header: React.FC = () => {
 
   return userData && router.pathname !== AUTH_ROUTE ? (
     <div className={styles.container}>
-      <div>СУЗ</div>
+      <div className={styles.title}>СУЗ</div>
       <div>
         {userData.firstName} {userData.lastName}
       </div>
       <div>
-        <Button onClick={handleLogout}>Выход</Button>
+        <button onClick={handleLogout}>Выход</button>
       </div>
     </div>
   ) : null;
